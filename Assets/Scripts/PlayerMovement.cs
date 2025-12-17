@@ -3,25 +3,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction jumpAction;
     private Vector2 movementInput;
     private Rigidbody2D rb;
     [SerializeField]private float speed = 5.0f;
     [SerializeField]private float jumpForce = 100.0f;
+    public bool toRight = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
-        //moveAction = playerInput.Actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         movementInput = moveAction.ReadValue<Vector2>();
@@ -30,6 +28,14 @@ public class PlayerMovement : MonoBehaviour
         if (jumpAction.WasPressedThisFrame())
         {
             Jump();
+        }
+        if (movementInput.x > 0)
+        {
+            toRight = true;
+        }
+        else if (movementInput.x < 0)
+        {
+            toRight = false;
         }
     }
 

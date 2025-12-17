@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2677518409849394833}
   - component: {fileID: 3347435311661195731}
+  - component: {fileID: -4371221134078292831}
+  - component: {fileID: -4045055606046793009}
   - component: {fileID: 5927490945950054811}
   - component: {fileID: 4584335021818470128}
   - component: {fileID: 2104912184439601894}
@@ -36,6 +38,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8508589373603929238}
+  - {fileID: 7765721283912635769}
+  - {fileID: 9132893335615840245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3347435311661195731
@@ -50,8 +54,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03720f567757b624eb8034ac420a5835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 4584335021818470128}
   speed: 30
   jumpForce: 100
+  toRight: 1
+--- !u!114 &-4371221134078292831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494931621127738025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c57a78564b9e74419dde8add5d650ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PHealth: 100
+--- !u!114 &-4045055606046793009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494931621127738025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fa3be462353ca4485ee00078e8671d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackControllers:
+  - {fileID: 5803064555760284639}
+  - {fileID: 2183986809470049329}
+  Punches:
+  - {fileID: 7899760132675683433, guid: 5bc87507953ef5a4287cb71da92275d7, type: 3}
+  - {fileID: 7586446624041440900, guid: 3947f072ce1be054c8e7f68e3ab421e0, type: 3}
+  - {fileID: 401529705307997761, guid: 286be8765a8006345b65007e338970ff, type: 3}
+  attackRange: 0.5
+  attackDamage: 10
+  attackRate: 1
+  nextAttackTime: 0
+  nextComboTime: 0
+  comboStep: 0
 --- !u!50 &5927490945950054811
 Rigidbody2D:
   serializedVersion: 5
@@ -67,7 +111,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 9.8
+  m_GravityScale: 8
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -298,3 +342,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2183986809470049329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9132893335615840245}
+  m_Layer: 0
+  m_Name: AttackControllerL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9132893335615840245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183986809470049329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2677518409849394833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5803064555760284639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7765721283912635769}
+  m_Layer: 0
+  m_Name: AttackControllerR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7765721283912635769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5803064555760284639}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2677518409849394833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
