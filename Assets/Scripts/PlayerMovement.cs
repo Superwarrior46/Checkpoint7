@@ -1,7 +1,8 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     public PlayerInput playerInput;
     private InputAction moveAction;
@@ -22,20 +23,23 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        movementInput = moveAction.ReadValue<Vector2>();
-        Vector2 movement = new Vector2(movementInput.x, 0) * speed * Time.deltaTime;
-        rb.MovePosition(rb.position + movement);
-        if (jumpAction.WasPressedThisFrame())
+        if (photonView.IsMine)
         {
-            Jump();
-        }
-        if (movementInput.x > 0)
-        {
-            toRight = true;
-        }
-        else if (movementInput.x < 0)
-        {
-            toRight = false;
+            movementInput = moveAction.ReadValue<Vector2>();
+            Vector2 movement = new Vector2(movementInput.x, 0) * speed * Time.deltaTime;
+            rb.MovePosition(rb.position + movement);
+            if (jumpAction.WasPressedThisFrame())
+            {
+                Jump();
+            }
+            if (movementInput.x > 0)
+            {
+                toRight = true;
+            }
+            else if (movementInput.x < 0)
+            {
+                toRight = false;
+            }
         }
     }
 

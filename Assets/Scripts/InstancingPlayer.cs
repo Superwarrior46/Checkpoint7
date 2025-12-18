@@ -8,6 +8,11 @@ public class InstancingPlayerPruebas : MonoBehaviourPunCallbacks
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ReInstancingPlayers();
+    }
+
+    public void ReInstancingPlayers()
+    {
         PhotonNetwork.Instantiate(playerPrefab.name, posicionSpawn.position, posicionSpawn.rotation);
     }
 }

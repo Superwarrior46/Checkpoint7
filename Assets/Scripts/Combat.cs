@@ -1,49 +1,56 @@
+using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Combat : MonoBehaviour
+public class Combat : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject[] attackControllers;
     [SerializeField] private GameObject[] Punches;
     [SerializeField] private float attackRange = 0.5f;
-    [SerializeField] private int attackDamage = 10;
+    [SerializeField] private int attackDamage = 25;
     [SerializeField] private float attackRate = 1.0f;
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private float nextComboTime = 0f;
     [SerializeField] private int comboStep = 0;
-    private InputAction Attack;
+    [SerializeField] private int Points = 0;
+    private InputAction attackAction;
     private PlayerMovement PMove;
 
     private void Awake()
     {
-        Attack=PMove.playerInput.actions["Attack"];
+        PMove = GetComponent<PlayerMovement>();
+        attackAction=PMove.playerInput.actions["Attack"];
     }
 
     private void Update()
     {
-        int i = 0;
+        if (photonView.IsMine)
+        {
+            int i = 0;
 
-        if (PMove.toRight)
-        {
-            attackControllers[0].SetActive(true);
-            attackControllers[1].SetActive(false);
-            i = 0;
-        }
-        else
-        {
-            attackControllers[0].SetActive(false);
-            attackControllers[1].SetActive(true);
-            i = 1;
-        }
+            if (PMove.toRight)
+            {
+                attackControllers[0].SetActive(true);
+                attackControllers[1].SetActive(false);
+                i = 0;
+            }
+            else
+            {
+                attackControllers[0].SetActive(false);
+                attackControllers[1].SetActive(true);
+                i = 1;
+            }
 
-        if (nextAttackTime > 0)
-        {
-            nextAttackTime -= Time.deltaTime;
-        }
+            if (nextAttackTime > 0)
+            {
+                nextAttackTime -= Time.deltaTime;
+            }
 
-        if (Attack.WasPressedThisFrame() && nextAttackTime <= 0)
-        {
-            Punch(attackControllers[i]);
+            if (attackAction.WasPressedThisFrame() && nextAttackTime <= 0)
+            {
+                Punch(attackControllers[i]);
+            }
         }
     }
 
@@ -59,6 +66,7 @@ public class Combat : MonoBehaviour
             if (health != null)
             {
                 health.TakeDamage(attackDamage);
+                if (health.dead) Points++;
             }
 
             Rigidbody2D EnemyRb = obj.GetComponent<Rigidbody2D>();
@@ -72,12 +80,12 @@ public class Combat : MonoBehaviour
 
         comboStep++;
 
-        if (Attack.WasPressedThisFrame() && comboStep == 1)
+        if (attackAction.WasPressedThisFrame() && comboStep == 1)
         {
             Instantiate(Punches[1], attackController.transform);
             comboStep++;
         }
-        else if (Attack.WasPressedThisFrame() && comboStep == 2)
+        else if (attackAction.WasPressedThisFrame() && comboStep == 2)
         {
             Instantiate(Punches[2], attackController.transform);
             comboStep = 0;

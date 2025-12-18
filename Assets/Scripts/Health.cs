@@ -1,9 +1,27 @@
+using Photon.Pun;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float PHealth = 100f;
+    [SerializeField] private InstancingPlayerPruebas instancingPlayer;
+    public bool dead;
 
+    private void Awake()
+    {
+        instancingPlayer = FindAnyObjectByType<InstancingPlayerPruebas>();
+    }
+
+    void SettingPun()
+    {
+        photonView.RPC("TakeDamage",RpcTarget.All);
+        photonView.RPC("Die", RpcTarget.All);
+        photonView.RPC("Revive", RpcTarget.All);
+    }
+
+    [PunRPC]
     public void TakeDamage(float damage)
     {
         PHealth -= damage;
@@ -13,8 +31,20 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    [PunRPC]
+    public void Die()
     {
-        Destroy(gameObject);
+        PHealth = 100f;
+        dead = true;
+        Revive();
     }
+
+    [PunRPC]
+    IEnumerator Revive()
+    {
+        yield return new WaitForSeconds(3);
+        gameObject.transform.position = Vector3.zero;
+        dead = false;
+    }
+
 }
