@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8735942235191883302}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,8 @@ MonoBehaviour:
   nextAttackTime: 0
   nextComboTime: 0
   comboStep: 0
-  Points: 0
+  MyPoints: 0
+  winScreen: {fileID: 32084129502260466, guid: 20ad69d30f3cff740b4d44b2c9fda83e, type: 3}
 --- !u!50 &5927490945950054811
 Rigidbody2D:
   serializedVersion: 5

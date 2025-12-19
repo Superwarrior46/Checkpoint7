@@ -18,7 +18,6 @@ public class Health : MonoBehaviourPunCallbacks
     {
         photonView.RPC("TakeDamage",RpcTarget.All);
         photonView.RPC("Die", RpcTarget.All);
-        photonView.RPC("Revive", RpcTarget.All);
     }
 
     [PunRPC]
@@ -36,15 +35,6 @@ public class Health : MonoBehaviourPunCallbacks
     {
         PHealth = 100f;
         dead = true;
-        Revive();
-    }
-
-    [PunRPC]
-    IEnumerator Revive()
-    {
-        yield return new WaitForSeconds(3);
         gameObject.transform.position = Vector3.zero;
-        dead = false;
     }
-
 }

@@ -13,14 +13,17 @@ public class Combat : MonoBehaviourPunCallbacks
     [SerializeField] private float nextAttackTime = 0f;
     [SerializeField] private float nextComboTime = 0f;
     [SerializeField] private int comboStep = 0;
-    [SerializeField] private int Points = 0;
+    public int MyPoints = 0;
+    [SerializeField] private GameObject winScreen;
     private InputAction attackAction;
     private PlayerMovement PMove;
+    private Points points;
 
     private void Awake()
     {
         PMove = GetComponent<PlayerMovement>();
-        attackAction=PMove.playerInput.actions["Attack"];
+        points = FindAnyObjectByType<Points>();
+        attackAction =PMove.playerInput.actions["Attack"];
     }
 
     private void Update()
@@ -66,7 +69,11 @@ public class Combat : MonoBehaviourPunCallbacks
             if (health != null)
             {
                 health.TakeDamage(attackDamage);
-                if (health.dead) Points++;
+                if (health.dead)
+                {
+                    MyPoints++;
+                    health.dead = false;
+                }
             }
 
             Rigidbody2D EnemyRb = obj.GetComponent<Rigidbody2D>();
@@ -95,6 +102,12 @@ public class Combat : MonoBehaviourPunCallbacks
         {
             comboStep = 0;
             nextAttackTime = 1f / attackRate;
+        }
+
+        if (MyPoints == 3)
+        {
+            winScreen.SetActive(true);
+            points.End();
         }
     }
 
